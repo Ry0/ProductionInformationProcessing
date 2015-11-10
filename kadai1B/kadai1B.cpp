@@ -198,11 +198,11 @@ AXIS randCoordinateAxis(){
   for (int i = 0; i < 3; ++i){
     origin[i] = GetRandom(0, 3, 10);
   }
-  for (int i = 0; i < 3; ++i){
-    unit_x_axis[i] = unit_x_axis[i] + origin[i];
-    unit_y_axis[i] = unit_y_axis[i] + origin[i];
-    unit_z_axis[i] = unit_z_axis[i] + origin[i];
-  }
+  // for (int i = 0; i < 3; ++i){
+  //   unit_x_axis[i] = unit_x_axis[i] + origin[i];
+  //   unit_y_axis[i] = unit_y_axis[i] + origin[i];
+  //   unit_z_axis[i] = unit_z_axis[i] + origin[i];
+  // }
 
   axis.x_axis.x = unit_x_axis[0];
   axis.x_axis.y = unit_x_axis[1];
@@ -241,8 +241,12 @@ void OutputAxisPlt(char *fname){
   } else {
     fprintf(fpx, "0 0 0\n");
     fprintf(fpx, " 1 0 0\n\n\n");
+    // fprintf(fpx, "0 0 0\n");
+    // fprintf(fpx, "%lf %lf %lf", axis.x_axis.x, axis.x_axis.y, axis.x_axis.z);
     fprintf(fpx, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
-    fprintf(fpx, "%lf %lf %lf", axis.x_axis.x, axis.x_axis.y, axis.x_axis.z);
+    fprintf(fpx, "%lf %lf %lf", axis.x_axis.x + axis.origin.x,
+                                axis.x_axis.y + axis.origin.y,
+                                axis.x_axis.z + axis.origin.z);
     fclose(fpx);
   }
 
@@ -252,8 +256,12 @@ void OutputAxisPlt(char *fname){
   } else {
     fprintf(fpx, "0 0 0\n");
     fprintf(fpx, " 0 1 0\n\n\n");
+    // fprintf(fpx, "0 0 0\n");
+    // fprintf(fpx, "%lf %lf %lf", axis.y_axis.x, axis.y_axis.y, axis.y_axis.z);
     fprintf(fpy, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
-    fprintf(fpy, "%lf %lf %lf", axis.y_axis.x, axis.y_axis.y, axis.y_axis.z);
+    fprintf(fpy, "%lf %lf %lf", axis.y_axis.x + axis.origin.x,
+                                axis.y_axis.y + axis.origin.y,
+                                axis.y_axis.z + axis.origin.z);
     fclose(fpy);
   }
 
@@ -263,8 +271,12 @@ void OutputAxisPlt(char *fname){
   } else {
     fprintf(fpx, "0 0 0\n");
     fprintf(fpx, " 0 0 1\n\n\n");
+    // fprintf(fpx, "0 0 0\n");
+    // fprintf(fpx, "%lf %lf %lf", axis.y_axis.x, axis.y_axis.y, axis.y_axis.z);
     fprintf(fpz, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
-    fprintf(fpz, "%lf %lf %lf", axis.z_axis.x, axis.z_axis.y, axis.z_axis.z);
+    fprintf(fpy, "%lf %lf %lf", axis.z_axis.x + axis.origin.x,
+                                axis.z_axis.y + axis.origin.y,
+                                axis.z_axis.z + axis.origin.z);
     fclose(fpz);
   }
 
@@ -282,9 +294,9 @@ void OutputAxisPlt(char *fname){
     fprintf(fp, "set view equal xyz\n");
     fprintf(fp, "set ticslevel 0\n");
 
-    fprintf(fp, "splot \'x.dat\' using 1:2:3 with lines lt 1 lc rgb \'#1723E1\' lw 3 title \'X axis\',\\\n");
-    fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#37C440\' lw 3 title \'Y axis\',\\\n");
-    fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#FFCA31\' lw 3 title \'Z axis\'\n");
+    fprintf(fp, "splot \'x.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF3D46\' lw 3 title \'X axis\',\\\n");
+    fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#3DC41F\' lw 3 title \'Y axis\',\\\n");
+    fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\'\n");
     fclose(fp);
   }
 }

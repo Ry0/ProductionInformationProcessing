@@ -1,10 +1,17 @@
 #include "kadai.h"
 
 int main(){
+  // 課題1 (a)
+  // rotateXYZ(45, 60, 150);
+
+  // 課題1 (b)
+  // rotateYZX(45, 60, 150);
+
+  // 課題2
   char pltfile[128] = "../plot/plot.plt";
   OutputAxisPlt(pltfile);
-  // rotateXYZ(45, 60, 150);
-  // rotateYZX(45, 60, 150);
+
+  // gnuplotで結果を示す
   OpenGnuplot();
   // system("pause");
   return 0;
