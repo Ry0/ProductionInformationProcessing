@@ -14,6 +14,11 @@ void rotateXYZ(double r_x, double r_y, double r_z);
 void rotateYZX(double r_x, double r_y, double r_z);
 
 AXIS randCoordinateAxis();
-void OutputAxisPlt(char *fname);
-double GetRandom(double min,double max, int digit);
+AXIS OutputRandomAxis();
+void OutPutPlt_kadai2(char *fname);
+double GetRandom(double min, double max, int digit);
+void CoordinateTransform(AXIS axis);
+void OutPutPlt_kadai3(char *fname);
+void CoordinateTransformToOrigin(AXIS axis);
+void OutPutPlt_kadai4(char *fname);
 #endif

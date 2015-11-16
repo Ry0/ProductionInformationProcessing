@@ -231,7 +231,8 @@ double GetRandom(double min,double max, int digit){
   return R/ten;
 }
 
-void OutputAxisPlt(char *fname){
+
+AXIS OutputRandomAxis(){
   AXIS axis;
   axis = randCoordinateAxis();
 
@@ -240,7 +241,7 @@ void OutputAxisPlt(char *fname){
     printf("ファイルをオープンできません\n");
   } else {
     fprintf(fpx, "0 0 0\n");
-    fprintf(fpx, " 1 0 0\n\n\n");
+    fprintf(fpx, "1 0 0\n\n\n");
     // fprintf(fpx, "0 0 0\n");
     // fprintf(fpx, "%lf %lf %lf", axis.x_axis.x, axis.x_axis.y, axis.x_axis.z);
     fprintf(fpx, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
@@ -255,7 +256,7 @@ void OutputAxisPlt(char *fname){
     printf("ファイルをオープンできません\n");
   } else {
     fprintf(fpx, "0 0 0\n");
-    fprintf(fpx, " 0 1 0\n\n\n");
+    fprintf(fpx, "0 1 0\n\n\n");
     // fprintf(fpx, "0 0 0\n");
     // fprintf(fpx, "%lf %lf %lf", axis.y_axis.x, axis.y_axis.y, axis.y_axis.z);
     fprintf(fpy, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
@@ -270,7 +271,7 @@ void OutputAxisPlt(char *fname){
     printf("ファイルをオープンできません\n");
   } else {
     fprintf(fpx, "0 0 0\n");
-    fprintf(fpx, " 0 0 1\n\n\n");
+    fprintf(fpx, "0 0 1\n\n\n");
     // fprintf(fpx, "0 0 0\n");
     // fprintf(fpx, "%lf %lf %lf", axis.y_axis.x, axis.y_axis.y, axis.y_axis.z);
     fprintf(fpz, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
@@ -279,6 +280,13 @@ void OutputAxisPlt(char *fname){
                                 axis.z_axis.z + axis.origin.z);
     fclose(fpz);
   }
+
+  return axis;
+}
+
+
+void OutPutPlt_kadai2(char *fname){
+  OutputRandomAxis();
 
   FILE *fp;
   if((fp = fopen(fname, "w"))==NULL){
@@ -297,6 +305,126 @@ void OutputAxisPlt(char *fname){
     fprintf(fp, "splot \'x.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF3D46\' lw 3 title \'X axis\',\\\n");
     fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#3DC41F\' lw 3 title \'Y axis\',\\\n");
     fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\'\n");
+    fclose(fp);
+  }
+}
+
+
+void CoordinateTransform(AXIS axis){
+  double trMat[VEC_SIZE][VEC_SIZE], invtrMat[VEC_SIZE][VEC_SIZE];
+  double v0[VEC_SIZE], v1[VEC_SIZE], v2[VEC_SIZE], p[VEC_SIZE];
+
+  v0[0] = axis.x_axis.x;
+  v0[1] = axis.x_axis.y;
+  v0[2] = axis.x_axis.z;
+  v0[3] = 0.0;
+  v1[0] = axis.y_axis.x;
+  v1[1] = axis.y_axis.y;
+  v1[2] = axis.y_axis.z;
+  v1[3] = 0.0;
+  v2[0] = axis.z_axis.x;
+  v2[1] = axis.z_axis.y;
+  v2[2] = axis.z_axis.z;
+  v2[3] = 0.0;
+  p[0]  = axis.origin.x;
+  p[1]  = axis.origin.y;
+  p[2]  = axis.origin.z;
+  p[3]  = 1.0;
+
+  setMatCol4h(trMat, v0, v1, v2, p);
+  invMat4h(invtrMat, trMat);
+
+  // 初期姿勢を外部ファイルから取ってくる
+  char inputfile[128] = "../plot/initial_point.dat";
+  POINT input[8];
+  POINT output[8];
+  InputDatFile(input,inputfile);
+  CalcRotationMat(input, output, invtrMat);
+
+  char final_output[128] = "../plot/final_output.dat";
+  OutputDatFile(final_output, output);
+}
+
+
+void OutPutPlt_kadai3(char *fname){
+  FILE *fp;
+  if((fp = fopen(fname, "w"))==NULL){
+    printf("ファイルをオープンできません\n");
+  } else {
+    fprintf(fp, "reset\n");
+    fprintf(fp, "set xlabel \'x\'\n");
+    fprintf(fp, "set ylabel \'y\'\n");
+    fprintf(fp, "set zlabel \'z\'\n");
+    fprintf(fp, "set xrange[-5:5]\n");
+    fprintf(fp, "set yrange[-5:5]\n");
+    fprintf(fp, "set zrange[-5:5]\n");
+    fprintf(fp, "set view equal xyz\n");
+    fprintf(fp, "set ticslevel 0\n");
+
+    fprintf(fp, "splot \'x.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF3D46\' lw 3 title \'X axis\',\\\n");
+    fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#3DC41F\' lw 3 title \'Y axis\',\\\n");
+    fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\',\\\n");
+    fprintf(fp, "\'initial_point.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF8700\' lw 3 title \'Initial Position\',\\\n");
+    fprintf(fp, "\'final_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'Final Position\'\n");
+    fclose(fp);
+  }
+}
+
+
+void CoordinateTransformToOrigin(AXIS axis){
+  double trMat[VEC_SIZE][VEC_SIZE], invtrMat[VEC_SIZE][VEC_SIZE];
+  double v0[VEC_SIZE], v1[VEC_SIZE], v2[VEC_SIZE], p[VEC_SIZE];
+
+  v0[0] = axis.x_axis.x;
+  v0[1] = axis.x_axis.y;
+  v0[2] = axis.x_axis.z;
+  v0[3] = 0.0;
+  v1[0] = axis.y_axis.x;
+  v1[1] = axis.y_axis.y;
+  v1[2] = axis.y_axis.z;
+  v1[3] = 0.0;
+  v2[0] = axis.z_axis.x;
+  v2[1] = axis.z_axis.y;
+  v2[2] = axis.z_axis.z;
+  v2[3] = 0.0;
+  p[0]  = axis.origin.x;
+  p[1]  = axis.origin.y;
+  p[2]  = axis.origin.z;
+  p[3]  = 1.0;
+
+  setMatCol4h(trMat, v0, v1, v2, p);
+  invMat4h(invtrMat, trMat);
+
+  // 初期姿勢を外部ファイルから取ってくる
+  char inputfile[128] = "../plot/initial_point.dat";
+  POINT O_0[8], O_1[8];
+  InputDatFile(O_1, inputfile);
+  CalcRotationMat(O_1, O_0, invtrMat);
+
+  char final_output[128] = "../plot/final_output.dat";
+  OutputDatFile(final_output, O_0);
+}
+
+
+void OutPutPlt_kadai4(char *fname){
+  FILE *fp;
+  if((fp = fopen(fname, "w"))==NULL){
+    printf("ファイルをオープンできません\n");
+  } else {
+    fprintf(fp, "reset\n");
+    fprintf(fp, "set xlabel \'x\'\n");
+    fprintf(fp, "set ylabel \'y\'\n");
+    fprintf(fp, "set zlabel \'z\'\n");
+    fprintf(fp, "set xrange[-5:5]\n");
+    fprintf(fp, "set yrange[-5:5]\n");
+    fprintf(fp, "set zrange[-5:5]\n");
+    fprintf(fp, "set view equal xyz\n");
+    fprintf(fp, "set ticslevel 0\n");
+
+    fprintf(fp, "splot \'x.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF3D46\' lw 3 title \'X axis\',\\\n");
+    fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#3DC41F\' lw 3 title \'Y axis\',\\\n");
+    fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\',\\\n");
+    fprintf(fp, "\'final_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'Final Position\'\n");
     fclose(fp);
   }
 }
