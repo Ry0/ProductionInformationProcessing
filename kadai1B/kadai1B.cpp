@@ -341,7 +341,7 @@ void CoordinateTransform(AXIS axis){
   InputDatFile(input,inputfile, 8);
   CalcRotationMat(input, output, invtrMat, 8);
 
-  char final_output[128] = "../plot/final_output.dat";
+  char final_output[128] = "../plot/kadai3_output.dat";
   OutputDatFile(final_output, output, 8);
 }
 
@@ -365,7 +365,7 @@ void OutPutPlt_kadai3(char *fname){
     fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#3DC41F\' lw 3 title \'Y axis\',\\\n");
     fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\',\\\n");
     fprintf(fp, "\'initial_point.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF8700\' lw 3 title \'Initial Position\',\\\n");
-    fprintf(fp, "\'final_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'Final Position\'\n");
+    fprintf(fp, "\'kadai3_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'Final Position\'\n");
     fclose(fp);
   }
 }
@@ -394,30 +394,37 @@ void CoordinateTransformToOrigin(AXIS axis){
 
   setMatCol4h(trMat, v0, v1, v2, p);
 
-
   invMat4h(invtrMat, trMat);
 
   // 初期姿勢を外部ファイルから取ってくる
   // char inputfile[128] = "../plot/initial_point.dat";
   POINT O_0[4], O_1[4];
 
-  O_1[0].x = axis.x_axis.x;
-  O_1[0].y = axis.x_axis.y;
-  O_1[0].z = axis.x_axis.z;
-  O_1[1].x = axis.y_axis.x;
-  O_1[1].y = axis.y_axis.y;
-  O_1[1].z = axis.y_axis.z;
-  O_1[2].x = axis.z_axis.x;
-  O_1[2].y = axis.z_axis.y;
-  O_1[2].z = axis.z_axis.z;
+  O_1[0].x = axis.origin.x + axis.x_axis.x;
+  O_1[0].y = axis.origin.y + axis.x_axis.y;
+  O_1[0].z = axis.origin.z + axis.x_axis.z;
+  O_1[1].x = axis.origin.x + axis.y_axis.x;
+  O_1[1].y = axis.origin.y + axis.y_axis.y;
+  O_1[1].z = axis.origin.z + axis.y_axis.z;
+  O_1[2].x = axis.origin.x + axis.z_axis.x;
+  O_1[2].y = axis.origin.y + axis.z_axis.y;
+  O_1[2].z = axis.origin.z + axis.z_axis.z;
   O_1[3].x = axis.origin.x;
   O_1[3].y = axis.origin.y;
   O_1[3].z = axis.origin.z;
 
-  CalcRotationMat(O_1, O_0, trMat, 4);
+  CalcRotationMat(O_1, O_0, invtrMat, 4);
 
-  char final_output[128] = "../plot/final_output.dat";
-  OutputDatFile(final_output, O_0, 4);
+  FILE *fp;
+  if((fp = fopen("../plot/kadai4_output.dat", "w"))==NULL){
+    printf("ファイルをオープンできません\n");
+  } else {
+    for (int i = 0; i < 3; ++i){
+      fprintf(fp, "%lf %lf %lf\n", O_0[3].x, O_0[3].y, O_0[3].z);
+      fprintf(fp, "%lf %lf %lf\n\n\n", O_0[i].x, O_0[i].y, O_0[i].z);
+    }
+    fclose(fp);
+  }
 }
 
 
@@ -439,7 +446,69 @@ void OutPutPlt_kadai4(char *fname){
     fprintf(fp, "splot \'x.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF3D46\' lw 3 title \'X axis\',\\\n");
     fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#3DC41F\' lw 3 title \'Y axis\',\\\n");
     fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\',\\\n");
-    fprintf(fp, "\'final_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'Final Position\'\n");
+    fprintf(fp, "\'kadai4_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'O1X1Y1Z1 -> O0X0Y0Z0\'\n");
+    fclose(fp);
+  }
+}
+
+
+void TransformToOriginVector(AXIS axis){
+  double trMat[VEC_SIZE][VEC_SIZE], invtrMat[VEC_SIZE][VEC_SIZE];
+  double v0[VEC_SIZE], v1[VEC_SIZE], v2[VEC_SIZE], p[VEC_SIZE];
+
+  v0[0] = axis.x_axis.x;
+  v0[1] = axis.x_axis.y;
+  v0[2] = axis.x_axis.z;
+  v0[3] = 0.0;
+  v1[0] = axis.y_axis.x;
+  v1[1] = axis.y_axis.y;
+  v1[2] = axis.y_axis.z;
+  v1[3] = 0.0;
+  v2[0] = axis.z_axis.x;
+  v2[1] = axis.z_axis.y;
+  v2[2] = axis.z_axis.z;
+  v2[3] = 0.0;
+  p[0]  = axis.origin.x;
+  p[1]  = axis.origin.y;
+  p[2]  = axis.origin.z;
+  p[3]  = 1.0;
+
+  setMatCol4h(trMat, v0, v1, v2, p);
+
+  invMat4h(invtrMat, trMat);
+
+  char inputfile[128] = "../plot/initial_point.dat";
+  POINT input[8];
+  POINT output[8];
+  InputDatFile(input,inputfile, 8);
+  CalcRotationMat(input, output, invtrMat, 8);
+
+  char final_output[128] = "../plot/kadai5_output.dat";
+  OutputDatFile(final_output, output, 8);
+}
+
+
+void OutPutPlt_kadai5(char *fname){
+  FILE *fp;
+  if((fp = fopen(fname, "w"))==NULL){
+    printf("ファイルをオープンできません\n");
+  } else {
+    fprintf(fp, "reset\n");
+    fprintf(fp, "set xlabel \'x\'\n");
+    fprintf(fp, "set ylabel \'y\'\n");
+    fprintf(fp, "set zlabel \'z\'\n");
+    fprintf(fp, "set xrange[-5:5]\n");
+    fprintf(fp, "set yrange[-5:5]\n");
+    fprintf(fp, "set zrange[-5:5]\n");
+    fprintf(fp, "set view equal xyz\n");
+    fprintf(fp, "set ticslevel 0\n");
+
+    fprintf(fp, "splot \'x.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF3D46\' lw 3 title \'X axis\',\\\n");
+    fprintf(fp, "\'y.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#3DC41F\' lw 3 title \'Y axis\',\\\n");
+    fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\',\\\n");
+    fprintf(fp, "\'initial_point.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF8700\' lw 3 title \'Initial Position\',\\\n");
+    fprintf(fp, "\'kadai3_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF4D4E\' lw 3 title \'Solution from task 3\',\\\n");
+    fprintf(fp, "\'kadai5_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'Solution from task 5\'\n");
     fclose(fp);
   }
 }

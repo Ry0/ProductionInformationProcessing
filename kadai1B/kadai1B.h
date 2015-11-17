@@ -21,4 +21,6 @@ void CoordinateTransform(AXIS axis);
 void OutPutPlt_kadai3(char *fname);
 void CoordinateTransformToOrigin(AXIS axis);
 void OutPutPlt_kadai4(char *fname);
+void TransformToOriginVector(AXIS axis);
+void OutPutPlt_kadai5(char *fname);
 #endif

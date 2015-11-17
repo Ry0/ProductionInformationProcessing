@@ -15,22 +15,24 @@ int main(){
   // OutPutPlt_kadai2(pltfile);
 
   // 課題3
-  // AXIS axis;
-  // char pltfile[128] = "../plot/plot.plt";
-  // axis = OutputRandomAxis();
-  // CoordinateTransform(axis);
-  // OutPutPlt_kadai3(pltfile);
-
-  // 課題4
   AXIS axis;
   char pltfile[128] = "../plot/plot.plt";
   axis = OutputRandomAxis();
+  CoordinateTransform(axis);
+  // OutPutPlt_kadai3(pltfile);
 
-  CoordinateTransformToOrigin(axis);
-  OutPutPlt_kadai4(pltfile);
+  // 課題4
+  // AXIS axis;
+  // char pltfile[128] = "../plot/plot.plt";
+  // axis = OutputRandomAxis();
+  // CoordinateTransformToOrigin(axis);
+  // OutPutPlt_kadai4(pltfile);
+
+  // 課題5 (課題3のコメントアウトも外す)
+  TransformToOriginVector(axis);
+  OutPutPlt_kadai5(pltfile);
 
   // gnuplotで結果を示す
   OpenGnuplot();
-  // system("pause");
   return 0;
 }
