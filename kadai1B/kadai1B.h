@@ -4,11 +4,11 @@
 #include "Struct.h"
 
 // 関数プロトタイプ宣言
-void InputDatFile(POINT p[], char *fname);
+void InputDatFile(POINT p[], char *fname, double loop);
 int OpenGnuplot();
-void OutputDatFile(char *fname, POINT p[]);
+void OutputDatFile(char *fname, POINT p[], double loop);
 void OutputRotatePlt(char *fname);
-void CalcRotationMat(POINT input[], POINT output[], double rotation_mat[][VEC_SIZE]);
+void CalcRotationMat(POINT input[], POINT output[], double rotation_mat[][VEC_SIZE], int loop);
 
 void rotateXYZ(double r_x, double r_y, double r_z);
 void rotateYZX(double r_x, double r_y, double r_z);

@@ -1,5 +1,8 @@
 #include "kadai.h"
 
+#include <iostream>
+using namespace std;
+
 int main(){
   // 課題1 (a)
   // rotateXYZ(45, 60, 150);
@@ -22,6 +25,7 @@ int main(){
   AXIS axis;
   char pltfile[128] = "../plot/plot.plt";
   axis = OutputRandomAxis();
+
   CoordinateTransformToOrigin(axis);
   OutPutPlt_kadai4(pltfile);
 

@@ -3,14 +3,14 @@
 #include <iostream>
 using namespace std;
 
-void InputDatFile(POINT p[], char *fname){
+void InputDatFile(POINT p[], char *fname, double loop){
   FILE *fp;
 
   fp = fopen( fname, "r" );
   if( fp == NULL ){
     printf( "%sのファイルが開けません\n", fname);
   }else{
-    for (int i = 0; i < 8; ++i){
+    for (int i = 0; i < loop; ++i){
       if(fscanf( fp, "%lf %lf %lf", &p[i].x, &p[i].y, &p[i].z)==-1){
         printf("読み込み失敗");
       }
@@ -37,12 +37,12 @@ int OpenGnuplot()
 }
 
 
-void OutputDatFile(char *fname, POINT p[]){
+void OutputDatFile(char *fname, POINT p[], double loop){
   FILE *fp;
   if((fp = fopen(fname, "w"))==NULL){
     printf("ファイルをオープンできません\n");
   } else {
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < loop; ++i) {
       fprintf(fp, "%lf %lf %lf\n", p[i].x, p[i].y, p[i].z);
     }
     fclose(fp);
@@ -73,9 +73,9 @@ void OutputRotatePlt(char *fname){
 }
 
 
-void CalcRotationMat(POINT input[], POINT output[], double rotation_mat[][VEC_SIZE]){
+void CalcRotationMat(POINT input[], POINT output[], double rotation_mat[][VEC_SIZE], int loop){
   double input_vec[VEC_SIZE], trans[VEC_SIZE];
-  for (int i = 0; i < 8; ++i) {
+  for (int i = 0; i < loop; ++i) {
     input_vec[0] = input[i].x;
     input_vec[1] = input[i].y;
     input_vec[2] = input[i].z;
@@ -107,25 +107,25 @@ void rotateXYZ(double r_x, double r_y, double r_z){
   char inputfile[128] = "../plot/initial_point.dat";
   POINT input[8];
   POINT output_x[8], output_y[8], output_z[8];
-  InputDatFile(input,inputfile);
+  InputDatFile(input,inputfile, 8);
 
   // まずx軸まわりで回転
-  CalcRotationMat(input, output_x, m_x);
+  CalcRotationMat(input, output_x, m_x, 8);
   // x軸まわりで回転した結果を出力
   char x[128] = "../plot/x.dat";
-  OutputDatFile(x, output_x);
+  OutputDatFile(x, output_x, 8);
 
   // y軸まわりで回転
-  CalcRotationMat(output_x, output_y, m_y);
+  CalcRotationMat(output_x, output_y, m_y, 8);
   // y軸まわりで回転した結果を出力
   char y[128] = "../plot/y.dat";
-  OutputDatFile(y, output_y);
+  OutputDatFile(y, output_y, 8);
 
   // z軸まわりで回転
-  CalcRotationMat(output_y, output_z, m_z);
+  CalcRotationMat(output_y, output_z, m_z, 8);
   // z軸まわりで回転した結果を出力
   char z[128] = "../plot/z.dat";
-  OutputDatFile(z, output_z);
+  OutputDatFile(z, output_z, 8);
 }
 
 
@@ -148,25 +148,25 @@ void rotateYZX(double r_x, double r_y, double r_z){
   char inputfile[128] = "../plot/initial_point.dat";
   POINT input[8];
   POINT output_x[8], output_y[8], output_z[8];
-  InputDatFile(input,inputfile);
+  InputDatFile(input,inputfile, 8);
 
   // まずy軸まわりで回転
-  CalcRotationMat(input, output_y, m_y);
+  CalcRotationMat(input, output_y, m_y, 8);
   // y軸まわりで回転した結果を出力
   char y[128] = "../plot/y.dat";
-  OutputDatFile(y, output_y);
+  OutputDatFile(y, output_y, 8);
 
   // z軸まわりで回転
-  CalcRotationMat(output_y, output_z, m_z);
+  CalcRotationMat(output_y, output_z, m_z, 8);
   // z軸まわりで回転した結果を出力
   char z[128] = "../plot/z.dat";
-  OutputDatFile(z, output_z);
+  OutputDatFile(z, output_z, 8);
 
   // x軸まわりで回転
-  CalcRotationMat(output_z, output_x, m_x);
+  CalcRotationMat(output_z, output_x, m_x, 8);
   // x軸まわりで回転した結果を出力
   char x[128] = "../plot/x.dat";
-  OutputDatFile(x, output_x);
+  OutputDatFile(x, output_x, 8);
 }
 
 
@@ -338,11 +338,11 @@ void CoordinateTransform(AXIS axis){
   char inputfile[128] = "../plot/initial_point.dat";
   POINT input[8];
   POINT output[8];
-  InputDatFile(input,inputfile);
-  CalcRotationMat(input, output, invtrMat);
+  InputDatFile(input,inputfile, 8);
+  CalcRotationMat(input, output, invtrMat, 8);
 
   char final_output[128] = "../plot/final_output.dat";
-  OutputDatFile(final_output, output);
+  OutputDatFile(final_output, output, 8);
 }
 
 
@@ -393,16 +393,31 @@ void CoordinateTransformToOrigin(AXIS axis){
   p[3]  = 1.0;
 
   setMatCol4h(trMat, v0, v1, v2, p);
+
+
   invMat4h(invtrMat, trMat);
 
   // 初期姿勢を外部ファイルから取ってくる
-  char inputfile[128] = "../plot/initial_point.dat";
-  POINT O_0[8], O_1[8];
-  InputDatFile(O_1, inputfile);
-  CalcRotationMat(O_1, O_0, invtrMat);
+  // char inputfile[128] = "../plot/initial_point.dat";
+  POINT O_0[4], O_1[4];
+
+  O_1[0].x = axis.x_axis.x;
+  O_1[0].y = axis.x_axis.y;
+  O_1[0].z = axis.x_axis.z;
+  O_1[1].x = axis.y_axis.x;
+  O_1[1].y = axis.y_axis.y;
+  O_1[1].z = axis.y_axis.z;
+  O_1[2].x = axis.z_axis.x;
+  O_1[2].y = axis.z_axis.y;
+  O_1[2].z = axis.z_axis.z;
+  O_1[3].x = axis.origin.x;
+  O_1[3].y = axis.origin.y;
+  O_1[3].z = axis.origin.z;
+
+  CalcRotationMat(O_1, O_0, trMat, 4);
 
   char final_output[128] = "../plot/final_output.dat";
-  OutputDatFile(final_output, O_0);
+  OutputDatFile(final_output, O_0, 4);
 }
 
 
