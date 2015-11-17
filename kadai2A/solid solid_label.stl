@@ -1,0 +1,9 @@
+solid solid_label
+facet normal -1.305262e-001 9.914449e-001 0.000000e+000
+outer loop
+vertex   8.660254e-001   5.000000e-001   0.000000e+000
+vertex  -9.659258e-001   2.588190e-001   0.000000e+000
+vertex   8.660254e-001   5.000000e-001   3.000000e+000
+endloop
+endfacet
+endsolid solid_label
