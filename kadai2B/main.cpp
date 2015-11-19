@@ -1,0 +1,14 @@
+#include "kadai.h"
+
+#include <iostream>
+using namespace std;
+
+int main(){
+  double Theta[5] = {45.0/180.0*M_PI, 30.0/180.0*M_PI, 135.0/180.0*M_PI, -30.0/180.0*M_PI, 60.0/180.0*M_PI};
+  double Link_length[6] = {3.0/2.0, 3.0/2.0, 2.0/2.0, 2.0/2.0, 1.0/2.0, 1.0/2.0};
+
+  ForwardKinematics(Theta, Link_length);
+  ShowTfAxis(Theta, Link_length);
+
+  return 0;
+}
