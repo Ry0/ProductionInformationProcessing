@@ -1,8 +1,5 @@
 #include "kadai2B.h"
 
-#include <iostream>
-using namespace std;
-
 void ForwardKinematics(double joint[], double link[]){
   double LinkParam[6][4];
   double T0[VEC_SIZE][VEC_SIZE], T1[VEC_SIZE][VEC_SIZE], T2[VEC_SIZE][VEC_SIZE], T3[VEC_SIZE][VEC_SIZE], T4[VEC_SIZE][VEC_SIZE], T5[VEC_SIZE][VEC_SIZE];
@@ -57,11 +54,9 @@ void ShowTfAxis(double joint[], double link[]){
 
   for (int i = 0; i < 2; ++i){
     setVec4h(LinkParam[i], 0, 0, link[i]);
-    // cout << LinkParam[i][0] << ", " << LinkParam[i][1] << ", " << LinkParam[i][2] << ", " << LinkParam[i][3] << endl;
   }
   for (int i = 2; i < 6; ++i){
     setVec4h(LinkParam[i], 0, link[i], 0);
-    // cout << LinkParam[i][0] << ", " << LinkParam[i][1] << ", " << LinkParam[i][2] << ", " << LinkParam[i][3] << endl;
   }
 
   rotateZ4h(T0, joint[0]);
@@ -166,5 +161,111 @@ void OutputPlt(){
     fprintf(fp, "\'y.dat\' using 1:2:3 with lines lt 1 lc rgb \'#22BF2C\' lw 3 title \'Y axis\',\\\n");
     fprintf(fp, "\'z.dat\' using 1:2:3 with lines lt 1 lc rgb \'#4971E7\' lw 3 title \'Z axis\'\n");
     fclose(fp);
+  }
+}
+
+
+void OutputSTL(double part1[][VEC_SIZE], double part2[][VEC_SIZE], double part3[][VEC_SIZE]){
+  FILE *fp;
+
+  if((fp = fopen("../plot/Arm.stl", "w"))==NULL){
+    printf("ファイルをオープンできません\n");
+  } else {
+    prStlProlog((char *)"Arm", fp);
+    CombinationTriprism(part1, fp);
+    CombinationTriprism(part2, fp);
+    CombinationTriprism(part3, fp);
+    prStlEpilog((char *)"Arm", fp);
+    fclose(fp);
+  }
+
+}
+
+
+void LinkCreator(double joint[], double link[]){
+  double LinkParam[6][VEC_SIZE];
+  double T0[VEC_SIZE][VEC_SIZE], T1[VEC_SIZE][VEC_SIZE], T2[VEC_SIZE][VEC_SIZE], T3[VEC_SIZE][VEC_SIZE], T4[VEC_SIZE][VEC_SIZE], T5[VEC_SIZE][VEC_SIZE];
+
+  for (int i = 0; i < 2; ++i){
+    setVec4h(LinkParam[i], 0, 0, link[i]);
+  }
+  for (int i = 2; i < 6; ++i){
+    setVec4h(LinkParam[i], 0, link[i], 0);
+  }
+
+  rotateZ4h(T0, joint[0]);
+  rotateX4h(T1, joint[1]);
+  rotateY4h(T2, joint[2]);
+  rotateX4h(T3, joint[3]);
+  rotateY4h(T4, joint[4]);
+  unitMat4h(T5);
+
+  double T01[VEC_SIZE][VEC_SIZE], T012[VEC_SIZE][VEC_SIZE], T0123[VEC_SIZE][VEC_SIZE], T01234[VEC_SIZE][VEC_SIZE], T012345[VEC_SIZE][VEC_SIZE];
+
+  translate4hnotInit(T0, LinkParam[0]);
+  translate4hnotInit(T1, LinkParam[1]);
+  translate4hnotInit(T2, LinkParam[2]);
+  translate4hnotInit(T3, LinkParam[3]);
+  translate4hnotInit(T4, LinkParam[4]);
+  translate4hnotInit(T5, LinkParam[5]);
+
+  mulMM4h(T01, T0, T1);
+  mulMM4h(T012, T01, T2);
+  mulMM4h(T0123, T012, T3);
+  mulMM4h(T01234, T0123, T4);
+  mulMM4h(T012345, T01234, T5);
+
+  double P0[3][VEC_SIZE], P1[6][VEC_SIZE], P3[6][VEC_SIZE], P5[6][VEC_SIZE];
+  double trP3[6][VEC_SIZE], trP5[6][VEC_SIZE];
+  double Arm1[6][VEC_SIZE], Arm3[6][VEC_SIZE], Arm5[6][VEC_SIZE];
+
+  // 初期位置のインポート
+  FILE *tetra_point;
+  tetra_point = fopen("../plot/tetra_point.dat", "r");
+  if( tetra_point == NULL ){
+    printf( "ファイルが開けません\n");
+  }else{
+    for (int i = 0; i < 3; ++i){
+      if(fscanf( tetra_point, "%lf %lf %lf", &P0[i][0], &P0[i][1], &P0[i][2])==-1){
+        printf("読み込み失敗");
+      }
+    }
+  }
+  fclose(tetra_point);
+
+  set_arm(P0, P1, 3.0);
+  set_arm(P0, P3, 2.0);
+  set_arm(P0, P5, 1.0);
+
+  // 2,3リンクの初期姿勢を設定
+  double rotate90[VEC_SIZE][VEC_SIZE];
+  rotateX4h(rotate90, -M_PI/2);
+  for (int i = 0; i < 6; ++i){
+    mulMV4h(trP3[i], rotate90, P3[i]);
+    mulMV4h(trP5[i], rotate90, P5[i]);
+  }
+
+  for (int i = 0; i < 6; ++i){
+    mulMV4h(Arm1[i], T0, P1[i]);
+    mulMV4h(Arm3[i], T012, trP3[i]);
+    mulMV4h(Arm5[i], T01234, trP5[i]);
+  }
+
+  OutputSTL(Arm1, Arm3, Arm5);
+}
+
+void set_arm(double Origin[][VEC_SIZE], double P[][VEC_SIZE], double h)
+{
+  for (int i = 0; i < 3; ++i){
+    P[i][0] = Origin[i][0];
+    P[i][1] = Origin[i][1];
+    P[i][2] = Origin[i][2];
+    P[i][3] = 1;
+  }
+  for (int i = 0; i < 3; ++i){
+    P[i+3][0] = P[i][0];
+    P[i+3][1] = P[i][1];
+    P[i+3][2] = P[i][2] + h;
+    P[i+3][3] = 1;
   }
 }
