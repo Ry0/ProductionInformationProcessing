@@ -259,7 +259,7 @@ void rotateX4h(double m[][VEC_SIZE], double a){
 	m[1][2] = -sin(a);
 	m[2][1] = sin(a);
 	m[2][2] = cos(a);
-	m[0][0] = 1;
+	m[0][0] = m[3][3] = 1;
 
 	#ifdef DEBUG
 	printMat(m);
@@ -272,7 +272,7 @@ void rotateY4h(double m[][VEC_SIZE], double a){
 	m[0][2] = sin(a);
 	m[2][0] = -sin(a);
 	m[2][2] = cos(a);
-	m[1][1] = 1;
+	m[1][1] = m[3][3] = 1;
 
 	#ifdef DEBUG
 	printMat(m);
@@ -285,7 +285,7 @@ void rotateZ4h(double m[][VEC_SIZE], double a){
 	m[0][1] = -sin(a);
 	m[1][0] = sin(a);
 	m[1][1] = cos(a);
-	m[2][2] = 1;
+	m[2][2] = m[3][3] = 1;
 
 	#ifdef DEBUG
 	printMat(m);
@@ -298,7 +298,7 @@ void rotateXSC4h(double m[][VEC_SIZE], double sv, double cv){
 	m[1][2] = -sv;
 	m[2][1] = sv;
 	m[2][2] = cv;
-	m[0][0] = 1;
+	m[0][0] = m[3][3] = 1;
 
 	#ifdef DEBUG
 	printMat(m);
@@ -312,7 +312,7 @@ void rotateYSC4h(double m[][VEC_SIZE], double sv, double cv)
 	m[0][2] = sv;
 	m[2][0] = -sv;
 	m[2][2] = cv;
-	m[1][1] = 1;
+	m[1][1] = m[3][3] = 1;
 
 	#ifdef DEBUG
 	printMat(m);
@@ -326,7 +326,7 @@ void rotateZSC4h(double m[][VEC_SIZE], double sv, double cv)
 	m[0][1] = -sv;
 	m[1][0] = sv;
 	m[1][1] = cv;
-	m[2][2] = 1;
+	m[2][2] = m[3][3] = 1;
 
 	#ifdef DEBUG
 	printMat(m);
