@@ -475,13 +475,13 @@ void TransformToOriginVector(AXIS axis){
 
   setMatCol4h(trMat, v0, v1, v2, p);
 
-  // invMat4h(invtrMat, trMat);
+  invMat4h(invtrMat, trMat);
 
   char inputfile[128] = "../plot/initial_point.dat";
   POINT input[8];
   POINT output[8];
   InputDatFile(input,inputfile, 8);
-  CalcRotationMat(input, output, trMat, 8);
+  CalcRotationMat(input, output, invtrMat, 8);
 
   char final_output[128] = "../plot/kadai5_output.dat";
   OutputDatFile(final_output, output, 8);

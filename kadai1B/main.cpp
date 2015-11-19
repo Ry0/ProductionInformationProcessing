@@ -19,7 +19,7 @@ int main(){
   char pltfile[128] = "../plot/plot.plt";
   axis = OutputRandomAxis();
   CoordinateTransform(axis);
-  // OutPutPlt_kadai3(pltfile);
+  OutPutPlt_kadai3(pltfile);
 
   // 課題4
   // AXIS axis;
