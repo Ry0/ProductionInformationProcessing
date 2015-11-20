@@ -7,7 +7,7 @@ ADD_DEFINITIONS(
   -std=c++11
 )
 
-project(kadai2B)
+project(kadai3)
 
-add_executable (kadai2B main.cpp kadai1A.cpp kadai2A.cpp kadai2B.cpp)
-target_link_libraries (kadai2B)
+add_executable (kadai3 main.cpp kadai3.cpp kadai1A.cpp)
+target_link_libraries (kadai3)
