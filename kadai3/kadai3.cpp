@@ -92,3 +92,15 @@ void draw_bezier3(){
 		fclose(fp2);
 	}
 }
+
+// reset
+// set xlabel 'x'
+// set ylabel 'y'
+// set zlabel 'z'
+// set xrange[-10:10]
+// set yrange[-10:10]
+// set zrange[-10:10]
+// set view equal xyz
+// set ticslevel 0
+// splot 'point.dat' using 1:2:3 with points pt 7 ps 2 lt rgb "#ff9900" title 'Point',\
+// 'data.dat' using 1:2:3 with lines lt 1 lc rgb "#EA2525" lw 5 title 'Bezier'
