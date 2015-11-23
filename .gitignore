@@ -3,3 +3,5 @@ build
 *.stl
 *.dat
 *.plt
+
+!InputPoint.dat
