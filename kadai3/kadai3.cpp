@@ -234,7 +234,7 @@ void draw_bezier3_surface(){
 				on_bezier3_surface(q, m, input, u, v);
 				fprintf(data, "%lf %lf %lf\n", q[0], q[1], q[2]);
 			}
-			fprintf(data, "\n\n\n");
+			fprintf(data, "\n\n");
 		}
 
 		for (double v = 0; v < 1.05; v+=0.05){
@@ -242,7 +242,7 @@ void draw_bezier3_surface(){
 				on_bezier3_surface(q, m, input, u, v);
 				fprintf(data, "%lf %lf %lf\n", q[0], q[1], q[2]);
 			}
-			fprintf(data, "\n\n\n");
+			fprintf(data, "\n\n");
 		}
 
 	}
@@ -260,7 +260,7 @@ void draw_bezier3_surface(){
 		fprintf(plotfp, "set zrange[-7:7]\n");
 		fprintf(plotfp, "set view equal xyz\n");
 		fprintf(plotfp, "set ticslevel 0\n");
-		fprintf(plotfp, "set cbrange[-2:2]\n");
+		fprintf(plotfp, "set cbrange[-1.5:1.5]\n");
 		fprintf(plotfp, "splot \'point.dat\' using 1:2:3 with points pt 7 ps 1 lt rgb \"#ff9900\" title \'Point\',\\\n");
 		// fprintf(plotfp, "\'data.dat\' using 1:2:3 with lines lt 1 lc rgb \"#EA2525\" lw 1 title \'Bezier\'\n");
 		fprintf(plotfp, "\'surfacedata.dat\' using 1:2:3 with lines lt 1 lc palette lw 2 title \'Bezier\'\n");
