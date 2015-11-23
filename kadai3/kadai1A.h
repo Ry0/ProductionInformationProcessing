@@ -71,5 +71,6 @@ void zeroMat4h(double m[][VEC_SIZE]);
 void unitMat4h(double m[][VEC_SIZE]);
 // 逆行列
 void invMat4h(double im[][VEC_SIZE], double m[][VEC_SIZE]);
-
+// 転置行列
+void transposedMat4h(double tr[][VEC_SIZE], double m[][VEC_SIZE]);
 #endif
