@@ -55,14 +55,14 @@ void scaleVec4h(double u[], double k, double v[]){
 
 void add4h(double u[], double v[], double p[]){
 	for (int i = 0; i < VEC_SIZE - 1; ++i){
-		u[i] = v[i] + v[i];
+		u[i] = v[i] + p[i];
 	}
 	u[VEC_SIZE - 1] = 1;
 }
 
 void sub4h(double u[], double v[], double p[]){
 	for (int i = 0; i < VEC_SIZE - 1; ++i){
-		u[i] = v[i] - v[i];
+		u[i] = v[i] - p[i];
 	}
 	u[VEC_SIZE - 1] = 1;
 }

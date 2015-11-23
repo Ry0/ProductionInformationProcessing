@@ -55,14 +55,14 @@ void scaleVec4h(double u[], double k, double v[]){
 
 void add4h(double u[], double v[], double p[]){
 	for (int i = 0; i < VEC_SIZE - 1; ++i){
-		u[i] = v[i] + v[i];
+		u[i] = v[i] + p[i];
 	}
 	u[VEC_SIZE - 1] = 1;
 }
 
 void sub4h(double u[], double v[], double p[]){
 	for (int i = 0; i < VEC_SIZE - 1; ++i){
-		u[i] = v[i] - v[i];
+		u[i] = v[i] - p[i];
 	}
 	u[VEC_SIZE - 1] = 1;
 }
@@ -414,4 +414,21 @@ void invMat4h(double im[][VEC_SIZE], double m[][VEC_SIZE]){
 		printMat(im);
 		#endif
 	}
+}
+
+void transposedMat4h(double tr[][VEC_SIZE], double m[][VEC_SIZE]){
+	for (int i = 0; i < VEC_SIZE; ++i){
+		for (int j = 0; j < VEC_SIZE; ++j){
+			tr[j][i] = m[i][j];
+		}
+	}
+
+	#ifdef DEBUG
+	// 結果の出力
+	printf("Input ");
+	printMat(m);
+	printf("Transposed ");
+	printMat(tr);
+	#endif
+
 }

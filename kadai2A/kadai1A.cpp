@@ -55,14 +55,14 @@ void scaleVec4h(double u[], double k, double v[]){
 
 void add4h(double u[], double v[], double p[]){
 	for (int i = 0; i < VEC_SIZE - 1; ++i){
-		u[i] = v[i] + v[i];
+		u[i] = v[i] + p[i];
 	}
 	u[VEC_SIZE - 1] = 1;
 }
 
 void sub4h(double u[], double v[], double p[]){
 	for (int i = 0; i < VEC_SIZE - 1; ++i){
-		u[i] = v[i] - v[i];
+		u[i] = v[i] - p[i];
 	}
 	u[VEC_SIZE - 1] = 1;
 }
@@ -187,6 +187,15 @@ void translate4h(double m[][VEC_SIZE], double v[]){
 	for (int i = 0; i< VEC_SIZE; ++i) {
 		m[i][3] = v[i];
 		m[i][i] = 1;
+	}
+	#ifdef DEBUG
+	printMat(m);
+	#endif
+}
+
+void translate4hnotInit(double m[][VEC_SIZE], double v[]){
+	for (int i = 0; i< VEC_SIZE; ++i) {
+		m[i][3] = v[i];
 	}
 	#ifdef DEBUG
 	printMat(m);
