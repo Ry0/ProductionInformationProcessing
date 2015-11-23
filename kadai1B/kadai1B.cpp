@@ -1,8 +1,5 @@
 #include "kadai1B.h"
 
-#include <iostream>
-using namespace std;
-
 void InputDatFile(POINT p[], char *fname, double loop){
   FILE *fp;
 
@@ -31,7 +28,6 @@ int OpenGnuplot()
   fputs("load \"plot.plt\"\n", fp);
 
   fflush(fp);
-  cin.get();
   pclose(fp);
   return 0;
 }
