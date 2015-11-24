@@ -7,7 +7,7 @@ int main() {
 	// ƒxƒWƒG‹È–Ê‚ğ•`‚­
 	draw_bezier3_surface();
 
-	//OpenGnuplot();
+	OpenGnuplot();
 	system("pause");
 
 	return 0;
