@@ -116,6 +116,7 @@ void ArmOutputdat(double P[][VEC_SIZE]){
     for (int i = 0; i < 7; i++){
       fprintf(fp, "%lf %lf %lf\n", P[i][0], P[i][1], P[i][2]);
     }
+    fclose(fp);
   }
 }
 
