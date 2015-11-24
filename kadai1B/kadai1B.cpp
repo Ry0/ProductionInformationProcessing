@@ -173,33 +173,31 @@ AXIS randCoordinateAxis(){
 
   srand((unsigned)time(NULL));
 
+  // x軸の方向決定
   for (int i = 0; i < 3; ++i){
     x_axis[i] = (double)rand()/RAND_MAX;
   }
   x_axis[3] = 0.0;
-
   normalize4h(unit_x_axis, x_axis);
 
+  // y軸の方向決定(x軸と直行する条件から)内積計算
   for (int i = 0; i < 2; ++i){
     y_axis[i] = (double)rand()/RAND_MAX;
   }
   y_axis[2] = -(unit_x_axis[0]*y_axis[0]+unit_x_axis[1]*y_axis[1])/unit_x_axis[2];
   y_axis[3] = 0.0;
-
   normalize4h(unit_y_axis, y_axis);
 
+  // 決定したx軸y軸から外積によりz軸決定
   cross4h(z_axis, unit_x_axis, unit_y_axis);
   normalize4h(unit_z_axis, z_axis);
 
+  // 新たな原点座標決定
   for (int i = 0; i < 3; ++i){
     origin[i] = GetRandom(0, 3, 10);
   }
-  // for (int i = 0; i < 3; ++i){
-  //   unit_x_axis[i] = unit_x_axis[i] + origin[i];
-  //   unit_y_axis[i] = unit_y_axis[i] + origin[i];
-  //   unit_z_axis[i] = unit_z_axis[i] + origin[i];
-  // }
 
+  // AXIS型の構造体に各要素(新たな座標原点、３軸の方向ベクトル)代入
   axis.x_axis.x = unit_x_axis[0];
   axis.x_axis.y = unit_x_axis[1];
   axis.x_axis.z = unit_x_axis[2];
@@ -238,8 +236,6 @@ AXIS OutputRandomAxis(){
   } else {
     fprintf(fpx, "0 0 0\n");
     fprintf(fpx, "1 0 0\n\n\n");
-    // fprintf(fpx, "0 0 0\n");
-    // fprintf(fpx, "%lf %lf %lf", axis.x_axis.x, axis.x_axis.y, axis.x_axis.z);
     fprintf(fpx, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
     fprintf(fpx, "%lf %lf %lf", axis.x_axis.x + axis.origin.x,
                                 axis.x_axis.y + axis.origin.y,
@@ -253,8 +249,6 @@ AXIS OutputRandomAxis(){
   } else {
     fprintf(fpx, "0 0 0\n");
     fprintf(fpx, "0 1 0\n\n\n");
-    // fprintf(fpx, "0 0 0\n");
-    // fprintf(fpx, "%lf %lf %lf", axis.y_axis.x, axis.y_axis.y, axis.y_axis.z);
     fprintf(fpy, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
     fprintf(fpy, "%lf %lf %lf", axis.y_axis.x + axis.origin.x,
                                 axis.y_axis.y + axis.origin.y,
@@ -268,8 +262,6 @@ AXIS OutputRandomAxis(){
   } else {
     fprintf(fpx, "0 0 0\n");
     fprintf(fpx, "0 0 1\n\n\n");
-    // fprintf(fpx, "0 0 0\n");
-    // fprintf(fpx, "%lf %lf %lf", axis.y_axis.x, axis.y_axis.y, axis.y_axis.z);
     fprintf(fpz, "%lf %lf %lf\n", axis.origin.x, axis.origin.y, axis.origin.z);
     fprintf(fpy, "%lf %lf %lf", axis.z_axis.x + axis.origin.x,
                                 axis.z_axis.y + axis.origin.y,
@@ -327,7 +319,9 @@ void CoordinateTransform(AXIS axis){
   p[2]  = axis.origin.z;
   p[3]  = 1.0;
 
+  // 行列セット
   setMatCol4h(trMat, v0, v1, v2, p);
+  // 逆行列計算
   invMat4h(invtrMat, trMat);
 
   // 初期姿勢を外部ファイルから取ってくる
@@ -389,11 +383,8 @@ void CoordinateTransformToOrigin(AXIS axis){
   p[3]  = 1.0;
 
   setMatCol4h(trMat, v0, v1, v2, p);
-
   invMat4h(invtrMat, trMat);
 
-  // 初期姿勢を外部ファイルから取ってくる
-  // char inputfile[128] = "../plot/initial_point.dat";
   POINT O_0[4], O_1[4];
 
   O_1[0].x = axis.origin.x + axis.x_axis.x;
@@ -470,7 +461,6 @@ void TransformToOriginVector(AXIS axis){
   p[3]  = 1.0;
 
   setMatCol4h(trMat, v0, v1, v2, p);
-
   invMat4h(invtrMat, trMat);
 
   char inputfile[128] = "../plot/initial_point.dat";
