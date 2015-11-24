@@ -1,8 +1,5 @@
 #include "kadai.h"
 
-#include <iostream>
-using namespace std;
-
 int main(){
   // 課題2Bの3での与えられたパラメータ
   double Theta[5] = {45.0/180.0*M_PI, 30.0/180.0*M_PI, 135.0/180.0*M_PI, -30.0/180.0*M_PI, 60.0/180.0*M_PI};
