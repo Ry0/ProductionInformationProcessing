@@ -5,3 +5,5 @@ build
 *.plt
 
 !InputPoint.dat
+!tetra_point.dat
+!initial_point.dat
