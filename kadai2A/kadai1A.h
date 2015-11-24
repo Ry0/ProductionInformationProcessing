@@ -1,5 +1,5 @@
-#ifndef _KADAI1A_DEF_ /* _KADAI1A_DEF_ が定義されていなければ以下を読み込む．*/
-#define _KADAI1A_DEF_ /* _KADAI1A_DEF_ を定義する＝次回は読み込まれない．*/
+#ifndef _KADAI1A_DEF_
+#define _KADAI1A_DEF_
 #include "Struct.h"
 
 // 関数プロトタイプ宣言
@@ -70,5 +70,4 @@ void zeroMat4h(double m[][VEC_SIZE]);
 void unitMat4h(double m[][VEC_SIZE]);
 // 逆行列
 void invMat4h(double im[][VEC_SIZE], double m[][VEC_SIZE]);
-
 #endif
