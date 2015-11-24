@@ -21,15 +21,6 @@ void InputDatFile(POINT p[], char *fname, double loop) {
 // éQçlÅFhttp://www-sens.sys.es.osaka-u.ac.jp/wakate/tutorial/group3/gnuplot/
 int OpenGnuplot()
 {
-//	FILE *fp = popen("cd ../plot && gnuplot -persist", "w");
-//	if (fp == NULL) {
-//		return -1;
-//	}
-//	fputs("set mouse\n", fp);
-//	fputs("load \"plot.plt\"\n", fp);
-//
-//	fflush(fp);
-//	pclose(fp);
 	system("cd ../plot && wgnuplot -persist plot.plt");
 	return 0;
 }
