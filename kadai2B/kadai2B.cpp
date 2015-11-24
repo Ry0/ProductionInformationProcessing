@@ -6,11 +6,9 @@ void ForwardKinematics(double joint[], double link[]){
 
   for (int i = 0; i < 2; ++i){
     setVec4h(LinkParam[i], 0, 0, link[i]);
-    // cout << LinkParam[i][0] << ", " << LinkParam[i][1] << ", " << LinkParam[i][2] << ", " << LinkParam[i][3] << endl;
   }
   for (int i = 2; i < 6; ++i){
     setVec4h(LinkParam[i], 0, link[i], 0);
-    // cout << LinkParam[i][0] << ", " << LinkParam[i][1] << ", " << LinkParam[i][2] << ", " << LinkParam[i][3] << endl;
   }
 
   rotateZ4h(T0, joint[0]);
@@ -125,19 +123,13 @@ void ArmOutputdat(double P[][VEC_SIZE]){
 void TfAxisOutputdat(double P[][VEC_SIZE], FILE *fpx, FILE *fpy, FILE *fpz){
 
   fprintf(fpx, "%lf %lf %lf\n",      P[0][0], P[0][1], P[0][2]);
-  fprintf(fpx, "%lf %lf %lf\n\n\n",  P[1][0],
-                                     P[1][1],
-                                     P[1][2]);
+  fprintf(fpx, "%lf %lf %lf\n\n\n",  P[1][0], P[1][1], P[1][2]);
 
   fprintf(fpy, "%lf %lf %lf\n",      P[0][0], P[0][1], P[0][2]);
-  fprintf(fpy, "%lf %lf %lf\n\n\n",  P[2][0],
-                                     P[2][1],
-                                     P[2][2]);
+  fprintf(fpy, "%lf %lf %lf\n\n\n",  P[2][0], P[2][1], P[2][2]);
 
   fprintf(fpz, "%lf %lf %lf\n",      P[0][0], P[0][1], P[0][2]);
-  fprintf(fpz, "%lf %lf %lf\n\n\n",  P[3][0],
-                                     P[3][1],
-                                     P[3][2]);
+  fprintf(fpz, "%lf %lf %lf\n\n\n",  P[3][0], P[3][1], P[3][2]);
 }
 
 
@@ -253,6 +245,7 @@ void LinkCreator(double joint[], double link[]){
 
   OutputSTL(Arm1, Arm3, Arm5);
 }
+
 
 void set_arm(double Origin[][VEC_SIZE], double P[][VEC_SIZE], double h)
 {
