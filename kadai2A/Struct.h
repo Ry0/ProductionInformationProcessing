@@ -1,5 +1,6 @@
 #ifndef _STRUCT_DEF_
 #define _STRUCT_DEF_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

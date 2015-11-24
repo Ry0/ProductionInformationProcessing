@@ -1,5 +1,5 @@
-#ifndef _KADAI1A_DEF_ /* _KADAI1A_DEF_ が定義されていなければ以下を読み込む．*/
-#define _KADAI1A_DEF_ /* _KADAI1A_DEF_ を定義する＝次回は読み込まれない．*/
+#ifndef _KADAI1A_DEF_
+#define _KADAI1A_DEF_
 #include "Struct.h"
 
 // 関数プロトタイプ宣言

@@ -1,8 +1,5 @@
 #include "kadai.h"
 
-#include <iostream>
-using namespace std;
-
 int main(){
 
   // 課題1

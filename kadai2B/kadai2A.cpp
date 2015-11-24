@@ -275,12 +275,6 @@ void TransformPositionAll(char *label){
     prStlProlog(label, fp);
     TransformPosition((char*)"Tetra", fp);
     TransformPosition((char*)"Triprism", fp);
-    TransformPosition((char*)"Tetra", fp);
-    TransformPosition((char*)"Triprism", fp);
-    TransformPosition((char*)"Tetra", fp);
-    TransformPosition((char*)"Triprism", fp);
-    TransformPosition((char*)"Tetra", fp);
-    TransformPosition((char*)"Triprism", fp);
     prStlEpilog(label, fp);
     fclose(fp);
   }
