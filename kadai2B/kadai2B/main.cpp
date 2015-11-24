@@ -16,6 +16,7 @@ int main() {
 	LinkCreator(Theta, Link_length_short);
 
 	OpenGnuplot();
+
 	system("pause");
 	return 0;
 }
