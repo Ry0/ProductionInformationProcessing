@@ -4,6 +4,17 @@ build
 *.dat
 *.plt
 
+*~
+*.DS_Store
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.toc
+*.pdf
+
 !InputPoint.dat
 !tetra_point.dat
 !initial_point.dat
