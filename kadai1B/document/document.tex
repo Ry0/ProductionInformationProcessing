@@ -105,10 +105,42 @@ make
 \section{課題内容}
 \subsection{課題1}
 \subsubsection{(a)}
-$X_0$軸周り，$Y0$軸周り，$Z0$軸周り，の順番に回転する計算方法は以下の通りであり，処理結果の図形をFig.~\ref{fig:課題1(a)}に示す．
+$X_0$軸周り，$Y_0$軸周り，$Z_0$軸周り，の順番に回転する計算方法は以下の通りであり，処理結果の図形をFig.~\ref{fig:課題1(a)}に示す．
 
+\begin{eqnarray}
+\label{eq:a}
+  \left[
+    \begin{array}{cccc}
+      1 & 0 & 0 & 0 \\
+      0 & \cos{45^\circ} & -\sin{45^\circ} & 0\\
+      0 & \sin{45^\circ} & \cos{45^\circ} & 0\\
+      0 & 0 & 0 & 1\\
+    \end{array}
+  \right]\left[
+    \begin{array}{cccc}
+      \cos{60^\circ} & 0 & \sin{60^\circ} & 0 \\
+      0 & 1 & 0 & 0\\
+      \sin{60^\circ} & 0 & \cos{60^\circ} & 0\\
+      0 & 0 & 0 & 1\\
+    \end{array}
+  \right]\left[
+    \begin{array}{cccc}
+      \cos{150^\circ} & -\sin{150^\circ} & 0 & 0 \\
+      \sin{150^\circ} & \cos{150^\circ} & 0 & 0\\
+      0 & 0 & 1 & 0\\
+      0 & 0 & 0 & 1\\
+    \end{array}
+  \right]\left[
+    \begin{array}{c}
+      x\\
+      y\\
+      z\\
+      1\\
+    \end{array}
+  \right]
+\end{eqnarray}
 
-\begin{figure}[htb]
+\begin{figure}[tb]
   \begin{center}
     \includegraphics[clip,width=14cm]{fig/eps/1(a).eps}
   \end{center}
@@ -116,13 +148,53 @@ $X_0$軸周り，$Y0$軸周り，$Z0$軸周り，の順番に回転する計算�
   \label{fig:課題1(a)}
 \end{figure}
 
-\begin{figure}[htb]
+\subsubsection{(b)}
+$Y_0$ 軸周り，$Z_0$軸周り，$X_0$軸周り，の順番に回転する計算方法は以下の通りであり，処理結果の図形をFig.~\ref{fig:課題1(b)}に示す．
+
+\begin{eqnarray}
+\label{eq:a}
+  \left[
+    \begin{array}{cccc}
+      \cos{60^\circ} & 0 & \sin{60^\circ} & 0 \\
+      0 & 1 & 0 & 0\\
+      \sin{60^\circ} & 0 & \cos{60^\circ} & 0\\
+      0 & 0 & 0 & 1\\
+    \end{array}
+  \right]\left[
+    \begin{array}{cccc}
+      \cos{150^\circ} & -\sin{150^\circ} & 0 & 0 \\
+      \sin{150^\circ} & \cos{150^\circ} & 0 & 0\\
+      0 & 0 & 1 & 0\\
+      0 & 0 & 0 & 1\\
+    \end{array}
+  \right]\left[
+    \begin{array}{cccc}
+      1 & 0 & 0 & 0 \\
+      0 & \cos{45^\circ} & -\sin{45^\circ} & 0\\
+      0 & \sin{45^\circ} & \cos{45^\circ} & 0\\
+      0 & 0 & 0 & 1\\
+    \end{array}
+  \right]\left[
+    \begin{array}{c}
+      x\\
+      y\\
+      z\\
+      1\\
+    \end{array}
+  \right]
+\end{eqnarray}
+
+\begin{figure}[tb]
   \begin{center}
     \includegraphics[clip,width=14cm]{fig/eps/1(b).eps}
   \end{center}
   \caption{課題1(b)}
   \label{fig:課題1(b)}
 \end{figure}
+
+\subsection{課題2}
+乱数を用いて任意の原点位置と任意の軸方向を持つ「右手」座標系$O_1X_1Y_1Z_1$を求める.計算方法と任意座標
+系の表示結果を示せ.
 
 \begin{figure}[htb]
   \begin{center}
