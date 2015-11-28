@@ -3,7 +3,7 @@
 #include "kadai.h"
 
 // 関数プロトタイプ宣言
-// ロボットアームの逆運動学計算(各関節角度とリンクのパラメータ指定)
+// ロボットアームの順運動学計算(各関節角度とリンクのパラメータ指定)
 void ForwardKinematics(double joint[], double link[]);
 // 各軸での座標系を作成→外部ファイルに保存
 void ShowTfAxis(double joint[], double link[]);
