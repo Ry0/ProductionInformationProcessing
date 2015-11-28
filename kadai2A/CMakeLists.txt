@@ -1,12 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-ADD_DEFINITIONS(
-  -Wall
-  -g
-  -O2
-  -std=c++11
-)
-
 project(kadai2A)
 
 add_executable (kadai2A main.cpp kadai1A.cpp kadai2A.cpp)
