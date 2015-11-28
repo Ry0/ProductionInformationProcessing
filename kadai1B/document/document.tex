@@ -92,6 +92,39 @@ sudo apt-get install gnuplot
 
 コンパイル時に必要なビルドシステムはbuild-essentialとcmakeが必要であり，可視化のためにgnuplotを用いている．
 
+Visual Studioでのコンパイルも可能であるが，その場合Struct.hの最初の記述を変更する．
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, language=C, frame=single, firstnumber=4, numbers=left, breaklines=true]
+#define _CRT_SECURE_NO_DEPRECATE
+#include <stdio.h>
+#include <stdlib.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
+\end{lstlisting}
+
+またプログラム実行時にgnuplotを用いて自動的に起動した後プロットすることができない．従ってWindowsを用いて動作を確認する場合はマニュアルでpltファイルを読み込ませる必要がある．
+
+\subsection{ファイル構造}
+このzipの中のファイル構造を示す．
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, language=Bash, frame=single, firstnumber=1, numbers=left, breaklines=true]
+.
+├── CMakeLists.txt
+├── Struct.h
+├── document
+│  └── document.pdf
+├── kadai.h
+├── kadai1A.cpp
+├── kadai1A.h
+├── kadai1B.cpp
+├── kadai1B.h
+├── main.cpp
+└── plot
+    └── initial_point.dat
+\end{lstlisting}
+
+initial\_point.datは矢印を表す各点の初期位置が格納されたデータである．
+
 \subsection{コンパイル方法と実行方法}
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, language=Bash, frame=single, firstnumber=1, numbers=left, breaklines=true]
