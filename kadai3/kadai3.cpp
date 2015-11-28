@@ -1,8 +1,5 @@
 #include "kadai3.h"
 
-#include <iostream>
-using namespace std;
-
 void set_param_vector(double pv[BDIM+1], double t){
 	for (int i = 0; i < 4; ++i){
 		pv[i] = pow(t, i);
@@ -229,6 +226,7 @@ void draw_bezier3_surface(){
 	if((data = fopen("../plot/surfacedata.dat", "w"))==NULL){
 		printf("ファイルをオープンできません\n");
 	} else {
+		// u方向に曲面データ作成
 		for (double u = 0; u < 1.05; u+=0.05){
 			for (double v = 0; v < 1.05; v+=0.05){
 				on_bezier3_surface(q, m, input, u, v);
@@ -236,7 +234,7 @@ void draw_bezier3_surface(){
 			}
 			fprintf(data, "\n\n");
 		}
-
+		// v方向に曲面データ作成
 		for (double v = 0; v < 1.05; v+=0.05){
 			for (double u = 0; u < 1.05; u+=0.05){
 				on_bezier3_surface(q, m, input, u, v);
@@ -244,7 +242,14 @@ void draw_bezier3_surface(){
 			}
 			fprintf(data, "\n\n");
 		}
-
+		// u方向にベジエ曲線データ作成
+		for (int u = 0; u < BDIM+1; ++u){
+			for (double i = 0; i < 1.01; i+=0.01){
+				on_bezier3_curve(q, m, input[u], i);
+				fprintf(data, "%lf %lf %lf\n", q[0], q[1], q[2]);
+			}
+			fprintf(data, "\n\n");
+		}
 	}
 	fclose(data);
 
