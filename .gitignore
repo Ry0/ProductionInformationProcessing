@@ -13,7 +13,6 @@ build
 *.log
 *.synctex.gz
 *.toc
-*.pdf
 
 !InputPoint.dat
 !tetra_point.dat
