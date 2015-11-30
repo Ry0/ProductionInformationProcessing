@@ -299,8 +299,7 @@ void OutPutPlt_kadai2(char *fname){
 
 
 void CoordinateTransform(AXIS axis){
-  double trMat[VEC_SIZE][VEC_SIZE], invtrMat[VEC_SIZE][VEC_SIZE];
-  double v0[VEC_SIZE], v1[VEC_SIZE], v2[VEC_SIZE], p[VEC_SIZE];
+  double v0[VEC_SIZE], v1[VEC_SIZE], v2[VEC_SIZE], p[VEC_SIZE], point[VEC_SIZE];
 
   v0[0] = axis.x_axis.x;
   v0[1] = axis.x_axis.y;
@@ -319,17 +318,22 @@ void CoordinateTransform(AXIS axis){
   p[2]  = axis.origin.z;
   p[3]  = 1.0;
 
-  // 行列セット
-  setMatCol4h(trMat, v0, v1, v2, p);
-  // 逆行列計算
-  invMat4h(invtrMat, trMat);
-
   // 初期姿勢を外部ファイルから取ってくる
   char inputfile[128] = "../plot/initial_point.dat";
   POINT input[8];
   POINT output[8];
   InputDatFile(input,inputfile, 8);
-  CalcRotationMat(input, output, invtrMat, 8);
+
+  // 内積計算
+  for (int i = 0; i < 8; ++i){
+    point[0] = input[i].x - axis.origin.x;
+    point[1] = input[i].y - axis.origin.y;
+    point[2] = input[i].z - axis.origin.z;
+    point[3] = 1.0;
+    output[i].x = dot4h(v0, point);
+    output[i].y = dot4h(v1, point);
+    output[i].z = dot4h(v2, point);
+  }
 
   char final_output[128] = "../plot/kadai3_output.dat";
   OutputDatFile(final_output, output, 8);
@@ -494,7 +498,7 @@ void OutPutPlt_kadai5(char *fname){
     fprintf(fp, "\'z.dat\' using 1:2:3 with lines  lt 1 lc rgb \'#1D5FFF\' lw 3 title \'Z axis\',\\\n");
     fprintf(fp, "\'initial_point.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF8700\' lw 3 title \'Initial Position\',\\\n");
     fprintf(fp, "\'kadai3_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#FF4D4E\' lw 3 title \'Solution from task 3\',\\\n");
-    fprintf(fp, "\'kadai5_output.dat\' using 1:2:3 with lines lt 1 lc rgb \'#088763\' lw 3 title \'Solution from task 5\'\n");
+    fprintf(fp, "\'kadai5_output.dat\' using 1:2:3 with lines lt 3 lc rgb \'#088763\' lw 3 title \'Solution from task 5\'\n");
     fclose(fp);
   }
 }
