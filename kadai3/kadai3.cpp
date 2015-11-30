@@ -188,6 +188,7 @@ void calc_M_tPM(double output[BDIM+1][BDIM+1][HDIM], double input[BDIM+1][BDIM+1
 	for (int i = 0; i< BDIM+1; ++i) {
 		for (int j = 0; j < BDIM+1; ++j) {
 			for (int k = 0; k < BDIM+1; ++k) {
+				// xyzの要素それぞれ計算
 				for (int l = 0; l < HDIM-1; ++l) {
 					tmpoutput[i][j][l] += input[i][k][l] * M[k][j];
 				}
@@ -199,6 +200,7 @@ void calc_M_tPM(double output[BDIM+1][BDIM+1][HDIM], double input[BDIM+1][BDIM+1
 	for (int i = 0; i< BDIM+1; ++i) {
 		for (int j = 0; j < BDIM+1; ++j) {
 			for (int k = 0; k < BDIM+1; ++k) {
+				// xyzの要素それぞれ計算
 				for (int l = 0; l < HDIM-1; ++l) {
 					output[i][j][l] += trM[i][k] * tmpoutput[k][j][l];
 				}
