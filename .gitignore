@@ -13,8 +13,9 @@ build
 *.log
 *.synctex.gz
 *.toc
-*.pdf
+document.pdf
 
 !InputPoint.dat
 !tetra_point.dat
 !initial_point.dat
+!graph.dat
