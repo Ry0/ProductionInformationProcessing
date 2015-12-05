@@ -10,7 +10,6 @@ void main(void)
 	int es[EDGE_NUM][EDGE_PROPERTY];
 	int cs[CELL_NUM][CELL_PROPERTY];
 	char *fname = "graph_kadai4.dat";
-	int vid, v1, v2, eid;
 
 	init_graph(g, vs, es, cs);
 	read_data(g, fname);
