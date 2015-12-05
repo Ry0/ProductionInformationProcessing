@@ -17,11 +17,13 @@ void main(void)
 	pr_edge_all(g);
 	printf("Vertex Data\n");
 	pr_vertex_all(g);
+	printf("\n");
 
+	// 最早結合点時刻
 	calc_earliest_node_times(g, vs, es, cs, 8);
-
+	// 最遅結合点時刻
 	calc_latest_node_times(g, vs, es, cs, 8);
-
+	//クリティカルパスを求める
 	trace_critical_path(g, vs, es, cs, 8);
 
 	system("pause");
