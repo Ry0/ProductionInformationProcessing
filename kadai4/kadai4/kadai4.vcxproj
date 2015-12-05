@@ -78,7 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="graph_sample.c" />
+    <ClCompile Include="main.c" />
     <ClCompile Include="kadai4.c" />
   </ItemGroup>
   <ItemGroup>
