@@ -131,7 +131,7 @@ void trace_critical_path(int *g[GRAPH_ITEM_NUM], int vs[][VERTEX_PROPERTY], int 
 					p[i+1] = v2;
 					break;
 				}
-				next_v1(g, p[i], &v2, &eid);
+				next_v2(g, p[i], &v2, &eid);
 			}
 		}
 
